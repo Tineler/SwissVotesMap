@@ -1,5 +1,4 @@
-[
-  {
+var einheitskrankenkasse = {"results" : [{
     "canton": "AG",
     "yes": 53762,
     "no": 119785
@@ -128,5 +127,4 @@
     "canton": "ZH",
     "yes": 128083,
     "no": 266423
-  }
-]
+  }]};

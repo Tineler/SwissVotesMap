@@ -1,61 +1,96 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
-  .canton {
-    fill: #bbb;
-  }
-
   .canton-boundary {
     fill: none;
     stroke: #fff;
     stroke-linejoin: round;
   }
-
-  text {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 10px;
-    text-anchor: middle;
-  }
 </style>
 <body>
+  <nav>
+    <select id="data-selection">
+      <option value="einheitskrankenkasse">Einheitskrankenkasse</option>
+      <option value="mehrwertsteuer">Mehrwertsteuer</option>
+    </select>
+  </nav>
 <main>
 
 </main>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script src="cantons.js"></script>
+<script src="einheitskrankenkasse.js"></script>
+<script src="mehrwertsteuer.js"></script>
 <script>
 
-var width = 960,
-    height = 600;
+  var selectedData = einheitskrankenkasse;
 
-var projection = d3.geo.albers()
-    .rotate([0, 0])
-    .center([8.3, 46.8])
-    .scale(16000)
-    .translate([width / 2, height / 2])
-    .precision(.1);
+  document.getElementById('data-selection').addEventListener('change', function(event) {
+    selectedData = eval(event.currentTarget.value);
+    fillCantons();
+  });
+  
+  var width = 960,
+      height = 600;
 
-var path = d3.geo.path()
-    .projection(projection);
+  var projection = d3.geo.albers()
+      .rotate([0, 0])
+      .center([8.3, 46.8])
+      .scale(16000)
+      .translate([width / 2, height / 2])
+      .precision(.1);
 
-var svg = d3.select("main").append("svg")
-    .attr("width", width)
-    .attr("height", height);
+  var path = d3.geo.path()
+      .projection(projection);
 
-  var cantons = topojson.feature(swiss, swiss.objects.cantons);
+  var svg = d3.select("main").append("svg")
+      .attr("width", width)
+      .attr("height", height);
 
   // draw country
   svg.append("path")
       .datum(cantons)
-      .attr("class", "canton")
+      .attr("class", "switzerland")
       .attr("d", path);
 
-  // draw cantons
+  // draw boundaryies
   svg.append("path")
       .datum(topojson.mesh(swiss, swiss.objects.cantons, function(a, b) { return a !== b; }))
       .attr("class", "canton-boundary")
       .attr("d", path);
 
-</script>
+  // fill the cantons
+  var cantons = topojson.feature(swiss, swiss.objects.cantons).features;
+
+  fillCantons();
+
+  // fills the cantons with red or green, depending on the results.
+  function fillCantons() {
+     svg.selectAll(".canton").remove();
+     svg.selectAll(".canton")
+      .data(cantons)
+      .enter().insert("path", ".canton-boundary")
+      .attr("class", "canton")
+      .attr("d", path)
+      .style("fill", function(d, i) { 
+        var data = getData(d.id);
+        return data.yes > data.no ? "#10A123" : "#BF0202";
+      })
+      .on("mouseover", function(d, i) {
+        // add chart here
+      }); 
+  }
+
+  // gets the data for a specific canton.
+  function getData(canton) {
+    var data = selectedData.results.filter(function(element){ 
+      if(element.canton == canton) {
+        return element;
+      }
+    });
+
+    return data[0];
+  }
+  </script>
 </body>
