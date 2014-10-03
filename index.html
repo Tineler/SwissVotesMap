@@ -6,6 +6,16 @@
     stroke: #fff;
     stroke-linejoin: round;
   }
+
+  .canton {
+    opacity: 1;
+     transform: translate(0, 0);
+  }
+
+  .canton:hover {
+    opacity: .7;
+  }
+  
 </style>
 <body>
   <nav>
@@ -43,12 +53,13 @@
 
   var path = d3.geo.path()
       .projection(projection);
-
+  
+  // insert svg element
   var svg = d3.select("main").append("svg")
       .attr("width", width)
       .attr("height", height);
 
-  // draw country
+  // draw switzerland
   svg.append("path")
       .datum(cantons)
       .attr("class", "switzerland")
