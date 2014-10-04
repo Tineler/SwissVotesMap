@@ -60,7 +60,10 @@ function fillCantons() {
 
             var baseColor = (data.yes > data.no) ? "#10A123" : "#BF0202";
 
-            var color = (data.yes > data.no) ? shadeColor2(baseColor, data.yes/totalVotes*0.8) : shadeColor2(baseColor, 1-data.no/totalVotes*0.8);
+            var colorFunction = d3.scale.linear().domain([0.5, 1]).range([shadeColor2(baseColor, 0.7), baseColor]);
+
+            var color = (data.yes > data.no) ? colorFunction(data.yes/totalVotes) : colorFunction(data.no/totalVotes);
+
             return color;
         });
 }
