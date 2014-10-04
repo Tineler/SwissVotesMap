@@ -83,7 +83,7 @@ function addTooltips() {
             var percentageYes = ((data.yes/totalVotes)*100);
             var percentageNo = ((data.no/totalVotes)*100);
 
-            div .html(data.canton + "<br/>Yes: " + percentageYes.toFixed(2) + "% (" + data.yes + ")<br/>No: " + percentageNo.toFixed(2) + "% (" + data.no + ")" )
+            div.html(d.properties.name + "<br/>Yes: " + percentageYes.toFixed(2) + "% (" + data.yes + ")<br/>No: " + percentageNo.toFixed(2) + "% (" + data.no + ")" )
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY - 28) + "px");
         })
