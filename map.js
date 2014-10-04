@@ -3,6 +3,7 @@ var selectedData = einheitskrankenkasse;
 document.getElementById('data-selection').addEventListener('change', function(event) {
     selectedData = eval(event.currentTarget.value);
     fillCantons();
+    addTooltips();
 });
 
 var width = 960, height = 600;
