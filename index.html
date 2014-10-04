@@ -105,9 +105,11 @@
                 .style("fill", function(d, i) {
                     var data = getData(d.id);
 
+                    var totalVotes = data.yes + data.no;
+
                     var baseColor = (data.yes > data.no) ? "#10A123" : "#BF0202";
 
-                    var color = (data.yes > data.no) ? shadeColor2(baseColor, (1-data.no/data.yes)*0.8) : shadeColor2(baseColor, data.yes/data.no*0.8);
+                    var color = (data.yes > data.no) ? shadeColor2(baseColor, data.yes/totalVotes*0.8) : shadeColor2(baseColor, 1-data.no/totalVotes*0.8);
                     return color;
                 });
     }
