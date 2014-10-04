@@ -101,7 +101,13 @@
       .attr("d", path)
       .style("fill", function(d, i) {
         var data = getData(d.id);
-        return data.yes > data.no ? "#10A123" : "#BF0202";
+
+        var baseColor = (data.yes > data.no) ? "#10A123" : "#BF0202";
+
+        console.log(data.yes/data.no);
+
+        var color = (data.yes > data.no) ? shadeColor2(baseColor, (1-data.no/data.yes)*0.8) : shadeColor2(baseColor, data.yes/data.no*0.8);
+        return color;
       })
       .on("mouseover", function(d, i) {
          div.transition()
@@ -126,6 +132,11 @@
     return data[0];
   }
 
+  // Source: http://stackoverflow.com/revisions/13542669/10
+  function shadeColor2(color, percent) {
+      var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
+      return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
+  }
 
 </script>
 </body>
