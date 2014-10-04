@@ -19,9 +19,9 @@ body {
 
 .tooltip {
     position: absolute;
-    width: 150px;
-    padding: 2px;
-    background: rgba(0, 0, 0, 0.5);
+    width: auto;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.8);
     color: white;
     border-radius: 3px;
     pointer-events: none;
