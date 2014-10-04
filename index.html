@@ -15,7 +15,18 @@
   .canton:hover {
     opacity: .7;
   }
-  
+
+  .tooltip {
+      position: absolute;
+      width: 60px;
+      padding: 2px;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      border-radius: 3px;
+      pointer-events: none;
+  }
+
+
 </style>
 <body>
   <nav>
@@ -40,7 +51,7 @@
     selectedData = eval(event.currentTarget.value);
     fillCantons();
   });
-  
+
   var width = 960,
       height = 600;
 
@@ -53,7 +64,7 @@
 
   var path = d3.geo.path()
       .projection(projection);
-  
+
   // insert svg element
   var svg = d3.select("main").append("svg")
       .attr("width", width)
@@ -76,6 +87,10 @@
 
   fillCantons();
 
+  var div = d3.select("body").append("div")
+          .attr("class", "tooltip")
+          .style("opacity", 0);
+
   // fills the cantons with red or green, depending on the results.
   function fillCantons() {
      svg.selectAll(".canton").remove();
@@ -84,18 +99,25 @@
       .enter().insert("path", ".canton-boundary")
       .attr("class", "canton")
       .attr("d", path)
-      .style("fill", function(d, i) { 
+      .style("fill", function(d, i) {
         var data = getData(d.id);
         return data.yes > data.no ? "#10A123" : "#BF0202";
       })
       .on("mouseover", function(d, i) {
-        // add chart here
-      }); 
+         div.transition()
+                 .duration(200)
+                 .style("opacity", .9);
+
+        var data = getData(d.id);
+        div .html("Yes: " + data.yes + "<br/>No: " + data.no )
+           .style("left", (d3.event.pageX) + "px")
+           .style("top", (d3.event.pageY - 28) + "px");
+        });
   }
 
   // gets the data for a specific canton.
   function getData(canton) {
-    var data = selectedData.results.filter(function(element){ 
+    var data = selectedData.results.filter(function(element){
       if(element.canton == canton) {
         return element;
       }
@@ -103,5 +125,7 @@
 
     return data[0];
   }
-  </script>
+
+
+</script>
 </body>
