@@ -73,7 +73,7 @@ function addTooltips() {
         .on("mouseover", function(d, i) {
             div.transition()
                 .duration(200)
-                .style("opacity", .9);
+                .style("opacity", 1);
 
             var data = getData(d.id);
 
@@ -83,7 +83,7 @@ function addTooltips() {
             var percentageYes = ((data.yes/totalVotes)*100);
             var percentageNo = ((data.no/totalVotes)*100);
 
-            div.html(d.properties.name + "<br/>Yes: " + percentageYes.toFixed(2) + "% (" + data.yes + ")<br/>No: " + percentageNo.toFixed(2) + "% (" + data.no + ")" )
+            div.html("<img src='img/"+data.canton.toLowerCase()+".svg' class='crest' /><br/>" + d.properties.name + "<br/>Yes: " + percentageYes.toFixed(2) + "% (" + data.yes + ")<br/>No: " + percentageNo.toFixed(2) + "% (" + data.no + ")" )
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY - 28) + "px");
         })

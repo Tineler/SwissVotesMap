@@ -26,3 +26,7 @@ body {
     border-radius: 3px;
     pointer-events: none;
 }
+
+.crest {
+    width: 50px;
+}
