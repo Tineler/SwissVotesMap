@@ -104,8 +104,6 @@
 
         var baseColor = (data.yes > data.no) ? "#10A123" : "#BF0202";
 
-        console.log(data.yes/data.no);
-
         var color = (data.yes > data.no) ? shadeColor2(baseColor, (1-data.no/data.yes)*0.8) : shadeColor2(baseColor, data.yes/data.no*0.8);
         return color;
       })
@@ -115,10 +113,16 @@
                  .style("opacity", .9);
 
         var data = getData(d.id);
-        div .html("Yes: " + data.yes + "<br/>No: " + data.no )
+
+        div .html(data.canton + "<br/>Yes: " + data.yes + "<br/>No: " + data.no )
            .style("left", (d3.event.pageX) + "px")
            .style("top", (d3.event.pageY - 28) + "px");
-        });
+        })
+         .on("mouseout", function(d) {
+             div.transition()
+                 .duration(500)
+                 .style("opacity", 0);
+         });
   }
 
   // gets the data for a specific canton.
@@ -128,7 +132,6 @@
         return element;
       }
     });
-
     return data[0];
   }
 
